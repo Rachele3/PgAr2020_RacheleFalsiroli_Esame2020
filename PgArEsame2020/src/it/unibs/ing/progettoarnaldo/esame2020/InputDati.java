@@ -164,7 +164,7 @@ public class InputDati
 	       valoreLetto = lettore.nextDouble();
 	       finito = true;
 	      }
-	     catch (InputMismatchException e)
+	     catch (InputMismatchException | NumberFormatException e)
 	      {
 	       System.out.println(ERRORE_FORMATO);
 	       String daButtare = lettore.next();
@@ -173,6 +173,12 @@ public class InputDati
 	   return valoreLetto;
 	  }
 	 
+	  
+	  public static float leggiFloat (String messaggio, int minimo, int massimo)
+	  {
+		  return (float)leggiDouble(messaggio, minimo, massimo);
+	  }
+	  
 	  public static double leggiDoubleConMinimo (String messaggio, double minimo)
 	  {
 	   boolean finito = false;
@@ -189,6 +195,24 @@ public class InputDati
 	   return valoreLetto;
 	  }
 
+	  public static double leggiDouble(String messaggio, int minimo, int massimo)
+	  {
+		  boolean finito = false;
+		  double valoreLetto = 0;
+		  do
+		  {
+			  valoreLetto = leggiDouble(messaggio);
+			  if (valoreLetto >= minimo && valoreLetto<= massimo)
+				  finito = true;
+		     else
+		    	 if (valoreLetto < minimo)
+		    		 System.out.println(ERRORE_MINIMO + minimo);
+		    	 else
+		    		 System.out.println(ERRORE_MASSIMO + massimo); 
+		  } while (!finito);
+		     
+		 return valoreLetto;
+	  }
 	  
 	  public static boolean yesOrNo(String messaggio)
 	  {
@@ -201,12 +225,4 @@ public class InputDati
 			return false;
 	  }
 
-	  
-	  public static double radiceQuadrata (double num) throws IllegalArgumentException 
-	  {
-		  if (num < 0)
-			  throw new IllegalArgumentException("Il numero deve essere >= 0");
-		  else
-			  return Math.sqrt(num);
-	  }
 }
