@@ -7,6 +7,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
 
+/**
+ * INIZIO PROGRAMMA
+ * @author Rachele
+ *
+ */
 public class CarteMain {
 
     private static final String SALUTO_INIZIALE = "BENVENUTO A UNO - GI - OH!";
