@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+
+<Statistiche>
+    <Partita id="123">
+        <NumeroCarte nomeGiocatore="Marco">0</NumeroCarte>
+        <NumeroCarte nomeGiocatore="Luca">3</NumeroCarte>
+    </Partita>
+    <Partita id="1">
+        <NumeroCarte nomeGiocatore="Marco">7</NumeroCarte>
+        <NumeroCarte nomeGiocatore="Luca">0</NumeroCarte>
+    </Partita>
+    <Partita id="3">
+        <NumeroCarte nomeGiocatore="Marco">0</NumeroCarte>
+        <NumeroCarte nomeGiocatore="Luca">2</NumeroCarte>
+    </Partita>
+</Statistiche>
