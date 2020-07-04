@@ -10,7 +10,10 @@ public class Carta {
 		this.colore = colore;
 		this.numero = numero;
 	}
-
+	
+	public Carta () {
+		
+	}
 	
 	public Colore getColore() {
 		return colore;

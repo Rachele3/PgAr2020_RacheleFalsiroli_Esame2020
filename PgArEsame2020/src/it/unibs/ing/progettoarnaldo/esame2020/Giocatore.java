@@ -32,46 +32,60 @@ public class Giocatore {
 	}
 	
 	
-	public Carta scartaCarta()
+	public Carta scartaCarta(Carta cartaPescata)
 	{	
-		Carta c = null;
+		Carta c = new Carta();
 		Mazzo mazzo = new Mazzo();
-		Carta cartaPescata = mazzo.aggiungiCartaScartata();
+		
 		
 		// Scarto carta se è dello stesso colore oppure ha uguale numero della carta sulla pila delle carte scartate
-		if (c.getColore().equals(cartaPescata.getColore())  ||  c.getNumero() == cartaPescata.getNumero()) {  
-			System.out.println("Hai scartato: " + c.toString());
-			this.mieCarte.remove(c);
-		}
-		
-		else {// pesca carta dal mazzo, vedo se è compatibile altrimenti passo il turno
-			cartaPescata = mazzo.estrai();
-			if (c.getColore().equals(cartaPescata.getColore())  ||  c.getNumero() == cartaPescata.getNumero()) {  
-				System.out.println("Hai scartato: " + c.toString());
+		for (int i = 0; i < mieCarte.size(); i++) 
+		{
+			c = mieCarte.get(i);
+			if (c.getColore().equals(cartaPescata.getColore())  ||  c.getNumero() == cartaPescata.getNumero()) 
+			{  
+				System.out.println("\n" + this.nome + " hai scartato: " + c.toString());
 				this.mieCarte.remove(c);
-			}
-			else {
-				System.out.println("Spiacente, non puoi scartare nessuna carta! Passi il turno");
-				return null;
+				return c;
 			}
 		}
 		
-		return c;
-	}
+		// pesca carta dal mazzo, vedo se è compatibile altrimenti passo il turno
+		cartaPescata = mazzo.estrai();
+		for (int i = 0; i < mieCarte.size(); i++) 
+		{
+			c = mieCarte.get(i);
+			if (c.getColore().equals(cartaPescata.getColore())  ||  c.getNumero() == cartaPescata.getNumero()) 
+			{  
+				System.out.println("\n" + this.nome + " hai scartato: " + c.toString());
+				this.mieCarte.remove(c);
+				return c;
+			}
+		}
 	
+		System.out.println(String.format("\nSpiacente %s, non puoi scartare nessuna carta! Passi il turno", this.nome));
+		return null;
+
+	}
+		
 	
 	public int numeroCarte() {
 		return this.mieCarte.size();
 	}
 	
-	
+
 	public String toString() {
 		return String.format(DESCRIZIONE, this.nome.toUpperCase(), numeroCarte());
 	}
 
+	
+	// GETTER
 	public String getNome() {
 		return nome;
 	}
-	
-	
+
+	public ArrayList<Carta> getMieCarte() {
+		return mieCarte;
+	}
+		
 }

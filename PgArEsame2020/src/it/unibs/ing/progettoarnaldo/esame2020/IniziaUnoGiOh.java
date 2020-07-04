@@ -29,7 +29,7 @@ public class IniziaUnoGiOh {
 	public void iniziaPartita()
 	{
 		IniziaUnoGiOh gioco = new IniziaUnoGiOh();
-		Mazzo mazzo = null;
+		Mazzo mazzo = new Mazzo();
 		ArrayList<Giocatore> giocatori = new ArrayList<Giocatore>();
 
 		System.out.println(MSG_INIZIALE);
@@ -52,9 +52,29 @@ public class IniziaUnoGiOh {
 		
 		do 
 		{
-			// corpo della partita
-			// ... 
+			// CORPO DELLA PARTITA
+			/*
+				A inizio partita il mazzo viene mischiato e vengono date ad ogni giocatore 7 carte, successivamente
+				viene estratta un’altra carta dal mazzo che sarà quella che indicherà il colore che “comanda” e verrà
+				messa nel mazzo degli scarti.
+			*/
+			Carta cartaEstratta = new Carta();
+			mazzo.mischiaMazzo(); // mischio il mazzo
+			cartaEstratta = mazzo.aggiungiCartaScartata();
+			
+			Carta cartaGiocatore = new Carta();
+			for (Giocatore g : ordineTurni.values())
+			{
+				cartaGiocatore = g.scartaCarta(cartaEstratta);
+				if (cartaGiocatore != null)
+					cartaEstratta = cartaGiocatore;
+			}
 
+			if (InputDati.yesOrNo("Vuoi vedere la situazione dei giocatori? ")) {
+				for (int i = 0; i < giocatori.size(); i++)
+					System.out.println(giocatori.get(i).toString());
+			}
+			
 		} while(gioco.isFinita(giocatori) == false);
 	
 	}
@@ -78,14 +98,22 @@ public class IniziaUnoGiOh {
 	}
 	
 	
-	
+	/**
+	 * METODO isFinita
+	 * Determina se continuare il gioco oppure no. Termina quando un giocatore ha finito le sue carte.
+	 * @param elencoGiocatori
+	 * @return true se è finita.
+	 */
 	private boolean isFinita(ArrayList<Giocatore> elencoGiocatori) 
 	{
 		boolean finita = false;
-		for (int i = 0; i < elencoGiocatori.size(); i++) {
-			if (elencoGiocatori.get(i).numeroCarte() == 0) {
+		
+		for (int i = 0; i < elencoGiocatori.size(); i++) 
+		{
+			if (elencoGiocatori.get(i).numeroCarte() == 0) 
+			{
 				System.out.println(String.format(FINE_PARTITA, elencoGiocatori.get(i).getNome()));
-				return true;
+				finita = true;
 			}
 		}
 		return finita;

@@ -9,21 +9,20 @@ import it.unibs.ing.progettoarnaldo.mylib.*;
 
 public class Mazzo {
 
-
 	private static final int CARTA_BLU = 1;
 	private static final int CARTA_ROSSA = 2;
 	private static final int CARTA_GIALLA = 3;
 	private static final int CARTA_VERDE = 4;
 	
-	private ArrayList<Carta> mazzo_di_carte = new ArrayList<Carta>(80);
-	private Stack<Carta> carte_scartate = null;
+	private ArrayList<Carta> mazzoCarte = new ArrayList<Carta>(80);
+	private Stack<Carta> carteScartate = null;
 	
 	
 	/**  COSTRUTTORE  */
 	public Mazzo() 
 	{
-		this.mazzo_di_carte = costruisciMazzo();
-		this.carte_scartate = new Stack<Carta>();
+		this.mazzoCarte = costruisciMazzo();
+		this.carteScartate = new Stack<Carta>();
 	}
 
 	
@@ -36,46 +35,49 @@ public class Mazzo {
 	{
 		ArrayList<Carta> lista = new ArrayList<Carta>();
 	
-		Carta c = null;
+		Carta c = new Carta();
 	
-		for (int j = 1; j <= 4; j++) // ciclo sul numero di colori possibili
-		{
-			switch (j) 
-			{ 
-				case CARTA_BLU:
-					for (int i = 0; i <= 9; i++) 
-					{
-						c = new Carta (Colore.BLU, i);
-						lista.add(c);
-					}
-					break;
-					
-				case CARTA_ROSSA:
-					for (int i = 0; i <= 9; i++) 
-					{
-						c = new Carta (Colore.ROSSE, i);
-						lista.add(c);
-					}
-					break;
-					
-				case CARTA_GIALLA:
-					for (int i = 0; i <= 9; i++) 
-					{
-						c = new Carta (Colore.GIALLE, i);
-						lista.add(c);
-					}
-					break;
-					
-				case CARTA_VERDE:
-					for (int i = 0; i <= 9; i++) 
-					{
-						c = new Carta (Colore.VERDI, i);
-						lista.add(c);
-					}
-					break;
-					
+		do {
+			for (int j = 1; j <= 4; j++) // ciclo sul numero di colori possibili
+			{
+				switch (j) 
+				{ 
+					case CARTA_BLU:
+						for (int i = 0; i <= 9; i++) 
+						{
+							c = new Carta (Colore.BLU, i);
+							lista.add(c);
+						}
+						break;
+						
+					case CARTA_ROSSA:
+						for (int i = 0; i <= 9; i++) 
+						{
+							c = new Carta (Colore.ROSSA, i);
+							lista.add(c);
+						}
+						break;
+						
+					case CARTA_GIALLA:
+						for (int i = 0; i <= 9; i++) 
+						{
+							c = new Carta (Colore.GIALLA, i);
+							lista.add(c);
+						}
+						break;
+						
+					case CARTA_VERDE:
+						for (int i = 0; i <= 9; i++) 
+						{
+							c = new Carta (Colore.VERDE, i);
+							lista.add(c);
+						}
+						break;
+						
+				}
 			}
-		}
+			
+		} while(lista.size()< 80);
 		
 		return lista;
 	}
@@ -83,34 +85,31 @@ public class Mazzo {
 	
 	/**  Mischia il mazzo di carte  */
 	public void mischiaMazzo() {
-	    Collections.shuffle(mazzo_di_carte);
+	    Collections.shuffle(mazzoCarte);
 	}
 	
 	
 	/**
 	 * METODO estrai.
 	 * Si occupa di estrarre una carta casualmente.
-	 * 
 	 * @return Carta estratta
 	 */
 	public Carta estrai() 
 	{
-		int estratto = EstrazioniCasuali.estraiIntero(0, mazzo_di_carte.size());
-		return mazzo_di_carte.get(estratto);
+		int estratto = EstrazioniCasuali.estraiIntero(0, mazzoCarte.size());
+		return mazzoCarte.get(estratto);
 	}
 
 
 	public Carta aggiungiCartaScartata()
 	{
 		Carta c = estrai();
-		this.carte_scartate.push(c);
+		this.carteScartate.push(c);
 		return c;
 	}
 	
-
 	public ArrayList<Carta> getMazzo_di_carte() {
-		return mazzo_di_carte;
+		return mazzoCarte;
 	}
-
-		
+	
 }
