@@ -1,7 +1,9 @@
 package it.unibs.ing.progettoarnaldo.esame2020;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Stack;
 import java.util.TreeMap;
 
 import it.unibs.ing.progettoarnaldo.mylib.*;
@@ -9,7 +11,7 @@ import it.unibs.ing.progettoarnaldo.mylib.*;
 
 public class IniziaUnoGiOh {
 
-	private static final String RICHIESTA_NUMERO_GIOCATORI = "Quanti giocatori vogliono giocare?\n"
+	private static final String RICHIESTA_NUMERO_GIOCATORI = "Quanti giocatori vogliono partecipare?\n"
 			+ "1. Un solo giocatore\n"
 			+ "2. Due giocatori\n"
 			+ "3. Tre giocatori\n"
@@ -19,67 +21,78 @@ public class IniziaUnoGiOh {
 	private static final String FINE_PARTITA = "\nIl giocatore %s ha vinto, perchè ha terminato le carte del suo mazzo.";
 	
 	private static final String MSG_INIZIALE = "\nINIZIA LA PARTITA!";
-	private static final String RICHIESTA_NOME = "\nInserire nome giocatore: ";
+	private static final String RICHIESTA_NOME = "Inserire nome giocatore: ";
 	
+	private Mazzo mazzo;
+	private Stack<Carta> carteScartate = new Stack<Carta>();
+	private ArrayList<Giocatore> giocatori = new ArrayList<Giocatore>();
 
-	/**
-	 * METODO iniziaPartita.
-	 * Si occupa di gestire la partita con i turni.
-	 */
-	public void iniziaPartita()
-	{
-		IniziaUnoGiOh gioco = new IniziaUnoGiOh();
-		Mazzo mazzo = new Mazzo();
-		ArrayList<Giocatore> giocatori = new ArrayList<Giocatore>();
-
-		System.out.println(MSG_INIZIALE);
-		
-		int numeroGiocatori = InputDati.leggiIntero(RICHIESTA_NUMERO_GIOCATORI, 1, 4);
-		
-		// LISTA GIOCATORI
-		for (int i = 0; i < numeroGiocatori; i++) 
-		{
-			Giocatore g = null;
-			g = new Giocatore(InputDati.leggiStringaNonVuota(RICHIESTA_NOME));
-			giocatori.add(g);
-			
-		}
-		
-		// VIENE SCELTO ORDINE DI PARTENZA
-		Map <Integer, Giocatore> ordineTurni = new TreeMap<Integer, Giocatore>();
-		ordineTurni = gioco.iniziaTu(giocatori);
-		
-		
-		do 
-		{
-			// CORPO DELLA PARTITA
-			/*
-				A inizio partita il mazzo viene mischiato e vengono date ad ogni giocatore 7 carte, successivamente
-				viene estratta un’altra carta dal mazzo che sarà quella che indicherà il colore che “comanda” e verrà
-				messa nel mazzo degli scarti.
-			*/
-			Carta cartaEstratta = new Carta();
-			mazzo.mischiaMazzo(); // mischio il mazzo
-			cartaEstratta = mazzo.aggiungiCartaScartata();
-			
-			Carta cartaGiocatore = new Carta();
-			for (Giocatore g : ordineTurni.values())
-			{
-				cartaGiocatore = g.scartaCarta(cartaEstratta);
-				if (cartaGiocatore != null)
-					cartaEstratta = cartaGiocatore;
-			}
-
-			if (InputDati.yesOrNo("Vuoi vedere la situazione dei giocatori? ")) {
-				for (int i = 0; i < giocatori.size(); i++)
-					System.out.println(giocatori.get(i).toString());
-			}
-			
-		} while(gioco.isFinita(giocatori) == false);
 	
+	public IniziaUnoGiOh() {
+		this.mazzo = new Mazzo();
 	}
+
 	
+	 /**
+     * METODO iniziaPartita.
+     * Si occupa di gestire la partita con i turni.
+     */
+    public void iniziaPartita()
+    {
+        System.out.println(MSG_INIZIALE);
+
+        int numeroGiocatori = InputDati.leggiIntero(RICHIESTA_NUMERO_GIOCATORI, 1, 4);
+
+        // LISTA GIOCATORI
+        for (int i = 0; i < numeroGiocatori; i++)
+        {
+            Giocatore g = new Giocatore(InputDati.leggiStringaNonVuota(RICHIESTA_NOME));
+            giocatori.add(g);
+        }
+
+        // VIENE SCELTO ORDINE DI PARTENZA
+        Collections.shuffle(giocatori);
+        for (Giocatore g: giocatori) {
+            //pesca 7 carte dal mazzo
+            g.init(mazzo);
+        }
+
+        while(!isFinita())
+        {
+        	Carta cartaEstratta = new Carta();
+        	
+        	for (Giocatore g : giocatori) 
+            {
+                if (mazzo.size() == 0)
+                    mazzo.rigeneraMazzo(carteScartate);
+               
+                g.isMyTurn = true;
+                System.out.println("Ora è il turno del giocatore: " + g.getNome());
+               
+    			mazzo.mischiaMazzo();
+    			cartaEstratta = mazzo.pesca();                
+    			
+    			while (g.isMyTurn)
+    			{
+                    //stampa le mosse possibili poi numerale e con uno switch scegli cosa fare
+//    				g.scartaCarta(v, cartaEstratta);
+//    				if (cartaGiocatore != null)
+//    					cartaEstratta = cartaGiocatore;
+//                }
+                
 	
+	    			if (InputDati.yesOrNo("\nVuoi vedere la situazione dei giocatori? ")) {
+	    				for (int i = 0; i < giocatori.size(); i++)
+	    					System.out.println(giocatori.get(i).toString());
+	    			}
+    			}
+            } // for
+        } // while
+        
+        stampaClassifica(giocatori);
+    }
+
+
 	/*Per decidere chi inizia a giocare i giocatori lanciano un dado a 6 facce con numeri da 1 a 6
 	(estremi inclusi), chi otterrà il numero più alto inizia il turno. Nel caso uscisse lo stesso numero a
 	entrambi i giocatori il dado verrà rilanciato nuovamente da essi.*/
@@ -92,8 +105,7 @@ public class IniziaUnoGiOh {
 		{
 			int numeroEstrattoDado = EstrazioniCasuali.estraiIntero(1, 6);
 			infoGiocatore.put(numeroEstrattoDado, elencoGiocatori.get(i));
-		}
-			
+		} 
 		return infoGiocatore;	
 	}
 	
@@ -104,18 +116,32 @@ public class IniziaUnoGiOh {
 	 * @param elencoGiocatori
 	 * @return true se è finita.
 	 */
-	private boolean isFinita(ArrayList<Giocatore> elencoGiocatori) 
+	private boolean isFinita()
+    {
+        for (Giocatore giocatore : giocatori) 
+        {
+            if (giocatore.numeroCarte() == 0) 
+            {
+                System.out.println(String.format(FINE_PARTITA, giocatore.getNome()));
+                return true;
+            }
+        }
+        return false;
+    }
+	
+	
+	private void stampaClassifica (ArrayList<Giocatore> elencoGiocatori) 
 	{
-		boolean finita = false;
+		System.out.println("\nECCO LA CLASSIFICA FINALE");
+		Map<Integer, Giocatore> classifica = new TreeMap<Integer, Giocatore>();
 		
-		for (int i = 0; i < elencoGiocatori.size(); i++) 
-		{
-			if (elencoGiocatori.get(i).numeroCarte() == 0) 
-			{
-				System.out.println(String.format(FINE_PARTITA, elencoGiocatori.get(i).getNome()));
-				finita = true;
-			}
+		for (int i = 0; i < elencoGiocatori.size(); i++)
+			classifica.put(elencoGiocatori.get(i).numeroCarte(), elencoGiocatori.get(i));
+		
+		for(Integer key : classifica.keySet()) {
+			System.out.println(classifica.get(key));
 		}
-		return finita;
 	}
+	
+	
 }
