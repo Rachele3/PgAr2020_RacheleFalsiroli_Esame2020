@@ -66,7 +66,17 @@ public class IniziaUnoGiOh {
 		ordineTurni = gioco.iniziaTu(giocatori);
 		
 
-        while(!isFinita())
+        parita();
+        
+        stampaClassifica(giocatori);
+    }
+
+    /**
+     * Gestisce turni della partita e varie scelte del giocatore
+     */
+	public void parita() 
+	{
+		while(!isFinita())
         {
         	Carta cartaEstratta = new Carta();
         	
@@ -84,7 +94,6 @@ public class IniziaUnoGiOh {
     			
     			while (g.isMyTurn)
     			{
-                    //stampa le mosse possibili poi numerale e con uno switch scegli cosa fare
     				System.out.println(MOSSE_DISPONIBILI);
     				int scelta = InputDati.leggiIntero("Inserire opzione scelta: ", 1, 2);
     				switch(scelta) 
@@ -96,8 +105,7 @@ public class IniziaUnoGiOh {
 	    					break;
 	    					
 	    				case 2:
-	    					if (! verificaScommessa()) 
-	    					{
+	    					if (! verificaScommessa()) {
 	    						System.out.println("Spiacente, hai scommesso errato. Ti tocca pescare una carta");
 	    						g.pescaCarta(mazzo);
 	    					}
@@ -106,7 +114,6 @@ public class IniziaUnoGiOh {
     					default:
     						break;	
     				}
-    			
                 }
                
     			if (InputDati.yesOrNo("\nVuoi vedere la situazione dei giocatori? ")) {
@@ -115,9 +122,7 @@ public class IniziaUnoGiOh {
 	    		}
     		} // for
         }// while 
-        
-        stampaClassifica(giocatori);
-    }
+	}
 
 
     /**
