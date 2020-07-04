@@ -23,7 +23,7 @@ public class Mazzo {
      * METODO costruisciMazzo.
      * Genera il mazzo ciclando sui 4 colori e costruendo le carte numerate da 0 a 9.
      */
-    private void costruisciMazzo()
+    private void costruisciMazzo() throws IndexOutOfBoundsException
     {
         // Crea un mazzo da 80 carte con i 4 colori disponibili
         for (int n = 0; n < 2; n++) 

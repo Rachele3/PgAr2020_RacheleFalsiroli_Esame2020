@@ -51,6 +51,10 @@ public class Giocatore {
             System.out.println("Questa carta non può essere scartata. Numero o colore errato.");
     }
 
+    public void scartaCartaAPiacere (int numCartaScelta) {
+    	 this.mieCarte.remove(this.mieCarte.get(numCartaScelta));
+    }
+    
     public void pescaCarta(Mazzo mazzo) {
        this.mieCarte.add(mazzo.pesca());
     }
@@ -70,6 +74,11 @@ public class Giocatore {
 
     public String toString() {
         return String.format(DESCRIZIONE, this.nome.toUpperCase(), numeroCarte());
+    }
+    
+    public void visualizzaCarte() {
+    	for (int i = 0; i < numeroCarte(); i++)
+    		System.out.println("0. " + this.mieCarte.get(i));
     }
 
     public String getNome() {

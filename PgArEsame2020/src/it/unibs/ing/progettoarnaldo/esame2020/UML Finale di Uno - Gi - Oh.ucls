@@ -3,7 +3,7 @@
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <enumeration id="1" language="java" name="it.unibs.ing.progettoarnaldo.esame2020.Colore" project="PgArEsame2020" 
     file="/PgArEsame2020/src/it/unibs/ing/progettoarnaldo/esame2020/Colore.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="421" y="540"/>    
+    <position height="-1" width="-1" x="471" y="527"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -12,7 +12,7 @@
   </enumeration>  
   <class id="2" language="java" name="it.unibs.ing.progettoarnaldo.esame2020.Carta" project="PgArEsame2020" 
     file="/PgArEsame2020/src/it/unibs/ing/progettoarnaldo/esame2020/Carta.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="955" y="156"/>    
+    <position height="-1" width="-1" x="463" y="62"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -22,7 +22,7 @@
   <class id="3" language="java" name="it.unibs.ing.progettoarnaldo.esame2020.IniziaUnoGiOh" project="PgArEsame2020" 
     file="/PgArEsame2020/src/it/unibs/ing/progettoarnaldo/esame2020/IniziaUnoGiOh.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="182" y="159"/>    
+    <position height="-1" width="-1" x="182" y="196"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -31,7 +31,7 @@
   </class>  
   <class id="4" language="java" name="it.unibs.ing.progettoarnaldo.esame2020.CarteMain" project="PgArEsame2020" 
     file="/PgArEsame2020/src/it/unibs/ing/progettoarnaldo/esame2020/CarteMain.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="180" y="418"/>    
+    <position height="-1" width="-1" x="176" y="478"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -40,7 +40,7 @@
   </class>  
   <class id="5" language="java" name="it.unibs.ing.progettoarnaldo.esame2020.Giocatore" project="PgArEsame2020" 
     file="/PgArEsame2020/src/it/unibs/ing/progettoarnaldo/esame2020/Giocatore.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="669" y="139"/>    
+    <position height="-1" width="-1" x="819" y="191"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -57,49 +57,57 @@
     </display>  
   </class>  
   <dependency id="7">    
-    <end type="SOURCE" refId="6"/>    
-    <end type="TARGET" refId="1"/>  
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="3"/>  
   </dependency>  
   <dependency id="8">    
     <end type="SOURCE" refId="5"/>    
     <end type="TARGET" refId="6"/>  
   </dependency>  
-  <dependency id="9">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="2"/>  
-  </dependency>  
-  <dependency id="10">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="6"/>  
-  </dependency>  
-  <association id="11">    
+  <association id="9">    
     <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="12" name="mieCarte"/>      
-      <multiplicity id="13" minimum="0" maximum="2147483647"/>    
+      <attribute id="10" name="mieCarte">        
+        <position height="0" width="0" x="-492" y="-94"/>      
+      </attribute>      
+      <multiplicity id="11" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-492" y="-94"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <dependency id="14">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="3"/>  
-  </dependency>  
-  <dependency id="15">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="1"/>  
-  </dependency>  
-  <dependency id="16">    
+  <dependency id="12">    
     <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="5"/>  
   </dependency>  
-  <association id="17">    
+  <dependency id="13">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="1"/>  
+  </dependency>  
+  <association id="14">    
     <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="18" name="colore"/>      
-      <multiplicity id="19" minimum="0" maximum="1"/>    
+      <attribute id="15" name="colore">        
+        <position height="0" width="0" x="50" y="-13"/>      
+      </attribute>      
+      <multiplicity id="16" minimum="0" maximum="1">        
+        <position height="0" width="0" x="50" y="-13"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <dependency id="17">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <dependency id="18">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="1"/>  
+  </dependency>  
+  <dependency id="19">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

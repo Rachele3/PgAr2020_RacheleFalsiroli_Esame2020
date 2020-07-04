@@ -18,10 +18,13 @@ public class IniziaUnoGiOh {
 			+ "4. Quattro giocatori\n"
 			+ "Inserire opzione scelta: ";
 	
-	private static final String FINE_PARTITA = "\nIl giocatore %s ha vinto, perchè ha terminato le carte del suo mazzo.";
+	private static final String MOSSE_DISPONIBILI = "\nMOSSE DISPONIBILI\n"
+			+ "1. Scarta carta\n"
+			+ "2. Scommetti su un giocatore\n";
 	
 	private static final String MSG_INIZIALE = "\nINIZIA LA PARTITA!";
 	private static final String RICHIESTA_NOME = "Inserire nome giocatore: ";
+	private static final String FINE_PARTITA = "\nIl giocatore %s ha vinto, perchè ha terminato le carte del suo mazzo.";
 	
 	private Mazzo mazzo;
 	private Stack<Carta> carteScartate = new Stack<Carta>();
@@ -52,10 +55,16 @@ public class IniziaUnoGiOh {
 
         // VIENE SCELTO ORDINE DI PARTENZA
         Collections.shuffle(giocatori);
-        for (Giocatore g: giocatori) {
+        for (Giocatore g: giocatori) 
+        {
             //pesca 7 carte dal mazzo
             g.init(mazzo);
         }
+        
+        IniziaUnoGiOh gioco = new IniziaUnoGiOh();
+        Map<Integer, Giocatore> ordineTurni = new TreeMap<Integer, Giocatore>();
+		ordineTurni = gioco.iniziaTu(giocatori);
+		
 
         while(!isFinita())
         {
@@ -66,31 +75,88 @@ public class IniziaUnoGiOh {
                 if (mazzo.size() == 0)
                     mazzo.rigeneraMazzo(carteScartate);
                
+                mazzo.mischiaMazzo();
+                
                 g.isMyTurn = true;
                 System.out.println("Ora è il turno del giocatore: " + g.getNome());
-               
-    			mazzo.mischiaMazzo();
+    			
     			cartaEstratta = mazzo.pesca();                
     			
     			while (g.isMyTurn)
     			{
                     //stampa le mosse possibili poi numerale e con uno switch scegli cosa fare
-//    				g.scartaCarta(v, cartaEstratta);
-//    				if (cartaGiocatore != null)
-//    					cartaEstratta = cartaGiocatore;
-//                }
-                
-	
-	    			if (InputDati.yesOrNo("\nVuoi vedere la situazione dei giocatori? ")) {
-	    				for (int i = 0; i < giocatori.size(); i++)
-	    					System.out.println(giocatori.get(i).toString());
-	    			}
-    			}
-            } // for
-        } // while
+    				System.out.println(MOSSE_DISPONIBILI);
+    				int scelta = InputDati.leggiIntero("Inserire opzione scelta: ", 1, 2);
+    				switch(scelta) 
+    				{
+	    				case 1:
+	    					g.visualizzaCarte();
+	    					int cartaScelta = InputDati.leggiIntero("Inserire numero della carta da scartare: ", 0, 7);
+	    					g.scartaCarta(cartaScelta, cartaEstratta);
+	    					break;
+	    					
+	    				case 2:
+	    					if (! verificaScommessa()) 
+	    					{
+	    						System.out.println("Spiacente, hai scommesso errato. Ti tocca pescare una carta");
+	    						g.pescaCarta(mazzo);
+	    					}
+	    					break;
+	    					
+    					default:
+    						break;	
+    				}
+    			
+                }
+               
+    			if (InputDati.yesOrNo("\nVuoi vedere la situazione dei giocatori? ")) {
+    				for (int i = 0; i < giocatori.size(); i++)
+    					System.out.println(giocatori.get(i).toString());
+	    		}
+    		} // for
+        }// while 
         
         stampaClassifica(giocatori);
     }
+
+
+    /**
+     * METODO verificaScommessa
+     * Veriifca se la scommessa era 
+     * @param scommessaSuGiocatore
+     * @param miaScommessa
+     * @param numeroScommesso
+     */
+	private boolean verificaScommessa() 
+	{
+		String scommessaSuGiocatore = InputDati.leggiStringaNonVuota("Giocatore su cui scommettere. Inserire nome: ");
+		String miaScommessa = InputDati.leggiStringaNonVuota("Colore carta: ");
+		int numeroScommesso = InputDati.leggiIntero("Numero carta: ", 0, 9);
+		
+		for (int i = 0; i < giocatori.size(); i++) 
+		{
+			if (giocatori.get(i).getNome().equals(scommessaSuGiocatore.toUpperCase())) 
+			{ // nome nella lista giocatori
+				for (int j = 0; j < giocatori.get(i).numeroCarte(); j++) 
+				{
+					if (miaScommessa.toUpperCase().equals(giocatori.get(i).getMieCarte().get(j).getColore().name())) 
+					{
+						if (numeroScommesso == giocatori.get(i).getMieCarte().get(j).getNumero()) 
+						{
+							System.out.println("Hai vinto la scommessa!! Scarta una carta a tuo piacere");
+							giocatori.get(i).visualizzaCarte();
+							int cartaScelta = InputDati.leggiIntero("Inserire numero della carta da scartare: ", 0, 7);
+							giocatori.get(i).scartaCartaAPiacere(cartaScelta);
+							return true;
+						}
+					}	
+				} // for j
+			}
+			
+		} // for i
+		return false;
+		
+	}
 
 
 	/*Per decidere chi inizia a giocare i giocatori lanciano un dado a 6 facce con numeri da 1 a 6
@@ -129,7 +195,11 @@ public class IniziaUnoGiOh {
         return false;
     }
 	
-	
+	/**
+	 * METODO stampaClassifica.
+	 * Si occupa di stampare a video la classifica degli giocatori in base al numero di carte rimaste nei loro mazzi
+	 * @param elencoGiocatori
+	 */
 	private void stampaClassifica (ArrayList<Giocatore> elencoGiocatori) 
 	{
 		System.out.println("\nECCO LA CLASSIFICA FINALE");
