@@ -1,4 +1,4 @@
-package it.unibs.ing.progettoarnaldo.esame2020;
+package it.unibs.ing.progettoarnaldo.mylib;
 import java.util.*;
 
 public class InputDati 
