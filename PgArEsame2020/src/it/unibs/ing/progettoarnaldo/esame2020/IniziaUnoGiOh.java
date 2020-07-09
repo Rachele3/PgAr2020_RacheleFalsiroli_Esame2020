@@ -65,10 +65,10 @@ public class IniziaUnoGiOh {
 
         // SCOMMETTIAMO SULLE CARTE
         for (Giocatore g: giocatori) {
-            System.out.println("Ora Ã¨ il turno del giocatore: " + g.getNome());
-            int mossa = InputDati.leggiIntero(".....", 0, 1);
+            System.out.println("Ora è il turno del giocatore: " + g.getNome());
+            int mossa = InputDati.leggiIntero("Vuoi scommettere?\n0. SI\n1. NO", 0, 1);
             if (mossa == 0){
-                g.scommetti();
+                g.scommetti(giocatori, carteScartate);
             }
         }
         carteScartate.push(mazzo.pesca());
@@ -83,14 +83,14 @@ public class IniziaUnoGiOh {
                 }
 
                 g.isMyTurn = true;
-                System.out.println("Ora Ã¨ il turno del giocatore: " + g.getNome());
+                System.out.println("Ora è il turno del giocatore: " + g.getNome());
                 printUltimaCarta();
                 g.printMano();
 
                 int min = 0;
                 while (g.isMyTurn){
                     //print mosse
-                    int mossa = InputDati.leggiIntero(".....", min, 2);
+                    int mossa = InputDati.leggiIntero("\n0. Pesca\n1. scegli carta\2. Passa il turno\n\t inserire scelta: ", min, 2);
                     switch (mossa){
                         case 0:
                             g.pescaCarta(mazzo);
@@ -98,7 +98,8 @@ public class IniziaUnoGiOh {
                             min = 1;
                             break;
                         case 1:
-                            int numeroCarta = InputDati.leggiIntero(".....", 0, g.numeroCarte());
+                            g.printMano();
+                        	int numeroCarta = InputDati.leggiIntero("Inserire numero carta: ", 0, g.numeroCarte());
                             g.scartaCarta(numeroCarta,carteScartate);
                             break;
                         case 2:
